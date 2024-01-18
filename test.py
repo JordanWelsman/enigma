@@ -1,4 +1,5 @@
 # Module Imports
+from alpha import Alpha
 from keys import Key, reflector_configurations, rotor_configurations
 from plugboard import Plugboard
 from random import seed, shuffle
@@ -7,10 +8,20 @@ from time import sleep
 
 
 # Test Environment
-k = Key('I')
-r = Rotor(k)
+a = Alpha()
+print(a)
+
+k = Key(sequence=a)
 print(k)
+
+r = Rotor(k)
 print(r)
+
+string = "Jordan"
+encoded = r(string)
+print(encoded)
+decoded = r(encoded, decode=True)
+print(decoded)
 
 
 # rotor_1 = 0
