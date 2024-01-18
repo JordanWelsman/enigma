@@ -1,7 +1,7 @@
 # Module Imports
 from alpha import Alpha
 from random import shuffle
-from key import Key
+from keys import Key, rotor_configurations
 
 
 # External Visibility
@@ -39,7 +39,9 @@ class Rotor(list):
         """
         self._alpha = Alpha()
 
-        if key is None:
+        if isinstance(key, str):
+            key = Key(key)
+        elif key is None:
             key = Key()
         self._rotor = []
         for value in key:
