@@ -1,4 +1,5 @@
 # Module Imports
+from alpha import Alpha
 from random import random as generate_seed, seed as set_seed, shuffle
 from typing import Any
 
@@ -87,7 +88,7 @@ class Key(list):
                 raise ValueError('Invalid rotor configuration.')
         else:
             if sequence is None:
-                sequence = list(range(26))
+                sequence = Alpha()
                 shuffle(sequence)
         
         super().__init__(sequence) # turn self into a list subtype
@@ -106,11 +107,15 @@ class Key(list):
             None
         
         """
-        if len(self) != 26:
-            raise ValueError('Key must contain 26 elements.')
-        for i in range(26):
-            if i not in self:
-                raise ValueError('Key must contain all numbers from 0 to 25.')
+        # Check length
+        assert len(self) == 26, 'Key must contain 26 elements.'
+
+        # Check all letters in Alpha() are present
+        assert all([i in self for i in Alpha()]), 'Key must contain all letters from A to Z.'
+
+        # Check for duplicates
+        assert len(set(self)) == 26, 'Key must not contain duplicate letters.'
+
         return True
     
     def __str__(self):
