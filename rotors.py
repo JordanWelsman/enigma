@@ -45,15 +45,15 @@ class Rotor(list):
             key = Key()
         self._rotor = []
         for value in key:
-            self._rotor.append(self._alpha[value])
+            self._rotor.append(value)
 
         self._rotation_count = 0
 
         super().__init__(self._rotor)
         self._validate()
 
-    
-    def __call__(self, input: str, spaces: str = None) -> str:
+
+    def __call__(self, input: str, spaces: str = '', decode: bool = False) -> str:
         """
         # Rotor Call
 
@@ -66,7 +66,14 @@ class Rotor(list):
             str: The encoded value.
         
         """
-        return self._encode(input)
+        output = ''
+        for character in input:
+            if decode:
+                output += self._decode(character, spaces)
+            else:
+                output += self._encode(character, spaces)
+        
+        return output
     
 
     def _validate(self) -> bool:
@@ -108,7 +115,7 @@ class Rotor(list):
         return output
     
 
-    def encode(self, input: str, spaces: str) -> str:
+    def _encode(self, input: str, spaces: str) -> str:
         """
         # Rotor Encoding
 
@@ -137,7 +144,7 @@ class Rotor(list):
         return output
     
 
-    def decode(self, input: str, spaces: str) -> str:
+    def _decode(self, input: str, spaces: str) -> str:
         """
         # Rotor Decoding
 
@@ -179,10 +186,11 @@ class Rotor(list):
         """
         if num_clicks > 0:
             for _ in range(num_clicks):
-                self.insert(0, self.pop())
+                self.append(self.pop(0))
         else:
             for _ in range(-num_clicks):
-                self.append(self.pop(0))
+                self.insert(0, self.pop())
+                
 
         self._rotation_count += num_clicks
         self._rotation_count %= 26
